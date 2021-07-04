@@ -60,6 +60,11 @@
         apt install xclip
         alias copy="xclip -sel clip"
         alias paste="xclip -out -sel clip"
+        #Usage
+        #"copy" is equivalent to ctrl + c
+        cat <text_file> | copy
+        #now paste it
+        paste
 
 * Update packages on new server
 
@@ -73,3 +78,8 @@
         #Set the following:
         #PermitRootLogin no
         #PasswordAuthentication no
+
+* Start `ssh-agent` ("Could not open a connection to your authentication agent" error message
+)
+
+        eval `ssh-agent -s`
