@@ -12,6 +12,8 @@
 * Log into machine
 
         ssh <user>@<ip>
+        #If you have many ssh keys, consider specifying it:
+        ssh -i <private_ssh> <user>@<ip>
 
 * Linux version
 
@@ -19,7 +21,7 @@
 
 * Copy files into another machine
 
-        scp <file> <user>@<ip>:<target_dir>
+        scp -i <ssh_private> <src_file> <user>@<ip>:<target_dir>
 
 * Log into machine and run script (already on the target machine)
 
