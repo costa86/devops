@@ -12,8 +12,10 @@
 * Log into machine
 
         ssh <user>@<ip>
-        #If you have many ssh keys, consider specifying it:
+        #If you have multiple ssh keys, it's better to specify it, or else you might get an error about failed attempts:
         ssh -i <private_ssh> <user>@<ip>
+        #extra:
+        append "-v" at the end to see details of the connection attempt 
 
 * Linux version
 
@@ -25,7 +27,7 @@
 
 * Log into machine and run script (already on the target machine)
 
-        ssh <user>@<ip> ". <script.sh>"
+        ssh <user>@<ip> "<script_location_on_target_machine>"
 
 * Create user
 
