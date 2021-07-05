@@ -87,3 +87,9 @@
 )
 
         eval `ssh-agent -s`
+
+* Create a `config` file to easily log into remote machines, without needing to type their IP
+
+Use `config` file as a template, and make sure it is placed in `.ssh` folder.
+                
+        ssh <custom_host_name>
