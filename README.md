@@ -24,13 +24,9 @@ Also, make sure the SSH agent is running before adding a new key (the `ssh-add` 
         #OR
         eval "$(ssh-agent -s)"
 ### Add keys
-* A single one
 
         ssh-add <private_part>
         
-* All the ones available under `.ssh` folder:
-
-        ssh-add
 
 
 ### Log into machine
@@ -47,6 +43,14 @@ append "-v" at the end to see details of the connection attempt
 
         hostnamectl
 
+### Restart SSH service
+
+When some changes are made, such as editing a config.file, e.g. For the changes to kick in.
+
+        systemctl restart sshd
+### Check SSH service's status
+
+        systemctl status sshd
 ### Copy files into another machine
 
         scp -i <ssh_private> <src_file> <user>@<ip>:<target_dir>
@@ -142,8 +146,12 @@ Usage:
 * You can check the contents of `/var/log/auth.log`
 
 * Or you can user Journalctl (more suitable)
+
+[Article about journalctl](https://www.loggly.com/ultimate-guide/using-journalctl/?CMP=KNC-TAD-GGL-SW_EMEA_X_PP_CPC_LD_EN_PROD_SW-LGL-12302661005~119270368524_g_c_-b~497490656865~~20876~~)
         
         journalctl -fu ssh -o json-pretty
+        #You can see all kinds of entries as well:
+        journalctl
 
         
   * "-f" -> Follow changes in real time

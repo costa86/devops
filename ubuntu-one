@@ -1,4 +1,4 @@
-user=$1
+user=normal
 group=$user
 adduser $user
 usermod -aG sudo $user

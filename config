@@ -2,8 +2,10 @@ Host <custom_name>
     Hostname <ip>
     Port 22
     User <user>
+    IdentityFile <private_key>
 
 Host <another_custom_name>
     Hostname <ip>
     Port 22
     User <user>
+    IdentityFile <private_key>
