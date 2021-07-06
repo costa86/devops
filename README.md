@@ -1,21 +1,47 @@
 # DevOps
 
 ## Cheat cheet
-### Create ssh-key
+### Create SSH-key 
+* RSA - The default algorithm
 
         ssh-keygen
-    
-### Add key
+
+* Ed25519 - The newer and more secure algorithm
+
+        ssh-keygen -o -a <number> -t ed25519 -f ~/.ssh/<key_custom_name> -C "<comment>"
+
+   * "-a" ->  Number of KDF (Key Derivation Function) rounds. Higher numbers result in slower passphrase verification, increasing the resistance to brute-force password cracking should the private-key be stolen. 100 is a good number
+   * "-o" -> Saves the private-key using the new OpenSSH format rather than the PEM format. Actually, this option is implied when you specify the key type as ed25519 
+   * "-C" -> An identifier. Your email, e.g
+   * "-f" -> Specifies the filename of the generated key file. If you want it to be discovered automatically by the SSH agent, it must be stored in the default `.ssh` directory within your home directory.
+
+### Make sure SSH agent is running  
+In case you get "Could not open a connection to your authentication agent" error message. 
+
+Also, make sure the SSH agent is running before adding a new key (the `ssh-add` command)
+
+        eval `ssh-agent -s`
+        #OR
+        eval "$(ssh-agent -s)"
+### Add keys
+* A single one
 
         ssh-add <private_part>
+        
+* All the ones available under `.ssh` folder:
+
+        ssh-add
+
 
 ### Log into machine
 
         ssh <user>@<ip>
-        #If you have multiple ssh keys, it's better to specify it, or else you might get an error about failed attempts:
+If you have multiple SSH keys, it's better to specify it, or else you might get an error about failed attempts:
+
         ssh -i <private_ssh> <user>@<ip>
-        #extra:
-        append "-v" at the end to see details of the connection attempt 
+
+Extra:
+append "-v" at the end to see details of the connection attempt 
 
 ### Linux version
 
@@ -25,7 +51,10 @@
 
         scp -i <ssh_private> <src_file> <user>@<ip>:<target_dir>
 
-### Log into machine and run script (already on the target machine)
+### Run script in remote machine
+From local machine.
+
+Make sure the script is already on the target machine
 
         ssh <user>@<ip> "<script_location_on_target_machine>"
 
@@ -63,7 +92,7 @@ In this example, we make a copy of the current user's .ssh folder into another u
     
         getent passwd | grep <user>
 
-### Copy and paste
+### Copy and paste (helper)
 
         apt install xclip
         alias copy="xclip -sel clip"
@@ -73,7 +102,7 @@ In this example, we make a copy of the current user's .ssh folder into another u
 The alias "copy" is equivalent to CTRL + C, and "paste" is equivalent to CTRL + V.
 
         
-        cat <text_file> | copy
+        cat <text_file_to_copy_content_from> | copy
         paste
 
 
@@ -84,7 +113,7 @@ Recommended after creating a new server
         sudo apt update
         sudo apt upgrade
 
-### Disable root login
+### Disable root login (optional)
 
 
 Open `etc/ssh/sshd_config` and set the following:
@@ -93,12 +122,8 @@ Open `etc/ssh/sshd_config` and set the following:
 
 * PasswordAuthentication no
 
-### Start `ssh-agent` 
-In case you get "Could not open a connection to your authentication agent" error message
 
-        eval `ssh-agent -s`
-
-### Create a `config` file
+### Create a `config` file (very handy!)
 It makes it easier to log into remote server machines without needing to type their IP
 
 Use [config](./config) file as a template, and make sure it is placed in `.ssh` folder.
@@ -111,21 +136,32 @@ Usage:
 `/etc/profile` is executed when the machine starts. It is a good place to set aliases and more commands.
 
 
-### Log file
+### Monitor accesses to machine (very useful!)
 
-In `/var/log/auth.log` you can monitor accesses that have been made into the server machine (really useful stuff)!
+
+* You can check the contents of `/var/log/auth.log`
+
+* Or you can user Journalctl (more suitable)
+        
+        journalctl -fu ssh -o json-pretty
+
+        
+  * "-f" -> Follow changes in real time
+  * "-u" -> Service/daemon name (`ssh` for debian & ubuntu or `sshd` for other distros)
+  * "-o json-pretty" (optional) -> Outputs as JSON (neat!)
+
 
 ### SSH via Android device
-You can SSH into server machines using Android mobile apps
+You can SSH into server machines using Android mobile apps.
+Here, I used JuiceSSH - SSH Client.
 
-Download JuiceSSH - SSH Client: https://play.google.com/store/apps/details?id=com.sonelli.juicessh
+* Download: https://play.google.com/store/apps/details?id=com.sonelli.juicessh
 
-A few shots from the app:
+* A few actual scheenshots from the app (v3.2.2): [images](./images)
 
-![conections](./images/1.jpg)
+### Copy SSH key from local to server machine
+In case SSH auth is not present on the server yet.
 
-![export](./images/3.jpg)
+This will create `.ssh` folder on the server, along with `authorized_keys` file populated with local's public key
 
-![export](./images/2.jpg)
-
-![export](./images/4.jpg)
+        ssh-copy-id -i <public_key> <user>@<ip>
