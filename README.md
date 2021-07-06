@@ -93,3 +93,9 @@
 Use [config](./config) file as a template, and make sure it is placed in `.ssh` folder.
                 
         ssh <custom_host_name>
+
+* Edit profile on server machine
+
+This file is executed when the machine starts. It is a good place to set aliases and more commands.
+
+        nano /etc/profile

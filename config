@@ -1,4 +1,9 @@
-Host ubuntu
-    Hostname 167.99.140.82
+Host <custom_name>
+    Hostname <ip>
     Port 22
-    User costa
+    User <user>
+
+Host <another_custom_name>
+    Hostname <ip>
+    Port 22
+    User <user>
