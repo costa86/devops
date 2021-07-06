@@ -1,15 +1,15 @@
 # DevOps
 
 ## Cheat cheet
-* Create ssh-key
+### Create ssh-key
 
         ssh-keygen
     
-* Add key
+### Add key
 
         ssh-add <private_part>
 
-* Log into machine
+### Log into machine
 
         ssh <user>@<ip>
         #If you have multiple ssh keys, it's better to specify it, or else you might get an error about failed attempts:
@@ -17,85 +17,115 @@
         #extra:
         append "-v" at the end to see details of the connection attempt 
 
-* Linux version
+### Linux version
 
         hostnamectl
 
-* Copy files into another machine
+### Copy files into another machine
 
         scp -i <ssh_private> <src_file> <user>@<ip>:<target_dir>
 
-* Log into machine and run script (already on the target machine)
+### Log into machine and run script (already on the target machine)
 
         ssh <user>@<ip> "<script_location_on_target_machine>"
 
-* Create user
+### Create user
 
         adduser <user>
 
-* Give sudo permission to user
+### Give sudo permission to user
 
         usermod -aG sudo <user>
 
-* See user permission
+### See user permission
 
         id <user>
 
-* Copy files & preserve permissions & change ownership
+### Copy files & preserve permissions & change ownership
 
-    In this example, we copy current user's .ssh folder into the user
+In this example, we make a copy of the current user's .ssh folder into another user
 
-        rsync --archive --chown=<user>:<group> ~/.ssh /home/<user>
+        rsync --archive --chown=<target_user>:<target_user_group> ~/.ssh /home/<target_user>
 
-* Change user
+### Change user
 
         su <user>
+        
+### Delete user
 
-* Get number of existing users
+        userdel -r <user>
+
+### Get number of existing users
     
         getent passwd | wc -l
 
-* Search for a user
+### Search for a user
     
         getent passwd | grep <user>
 
-* Copy and paste
+### Copy and paste
 
         apt install xclip
         alias copy="xclip -sel clip"
         alias paste="xclip -out -sel clip"
-        #Usage
-        #"copy" is equivalent to ctrl + c
+
+
+The alias "copy" is equivalent to CTRL + C, and "paste" is equivalent to CTRL + V.
+
+        
         cat <text_file> | copy
-        #now paste it
         paste
 
-* Update packages on new server
+
+### Update packages on new server
+
+Recommended after creating a new server
 
         sudo apt update
         sudo apt upgrade
 
-* Disable root login
+### Disable root login
 
-        nano /etc/ssh/sshd_config
 
-        #Set the following:
-        #PermitRootLogin no
-        #PasswordAuthentication no
+Open `etc/ssh/sshd_config` and set the following:
 
-* Start `ssh-agent` ("Could not open a connection to your authentication agent" error message
-)
+* PermitRootLogin no
+
+* PasswordAuthentication no
+
+### Start `ssh-agent` 
+In case you get "Could not open a connection to your authentication agent" error message
 
         eval `ssh-agent -s`
 
-* Create a `config` file to easily log into remote machines, without needing to type their IP
+### Create a `config` file
+It makes it easier to log into remote server machines without needing to type their IP
 
 Use [config](./config) file as a template, and make sure it is placed in `.ssh` folder.
+Usage:
                 
-        ssh <custom_host_name>
+        ssh <custom_name>
 
-* Edit profile on server machine
+### Edit profile on server machine
 
-This file is executed when the machine starts. It is a good place to set aliases and more commands.
+`/etc/profile` is executed when the machine starts. It is a good place to set aliases and more commands.
 
-        nano /etc/profile
+
+### Log file
+
+In `/var/log/auth.log` you can monitor accesses that have been made into the server machine (really useful stuff)!
+
+### SSH via Android device
+You can SSH into server machines using Android mobile apps
+
+Download JuiceSSH - SSH Client: https://play.google.com/store/apps/details?id=com.sonelli.juicessh
+
+A few shots from the app:
+
+![conections](./images/1.jpg)
+
+![export](./images/3.jpg)
+
+![export](./images/2.jpg)
+
+![export](./images/4.jpg)
