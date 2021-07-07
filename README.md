@@ -51,9 +51,24 @@ When some changes are made, such as editing a config.file, e.g. For the changes 
 ### Check SSH service's status
 
         systemctl status sshd
-### Copy files into another machine
+### Securely transfer/copy files from LOCAL to SERVER machine
+
+* Single file
 
         scp -i <ssh_private> <src_file> <user>@<ip>:<target_dir>
+
+* Directory
+
+        scp -r <files_dir> <user>@<ip>:<target_dir>
+
+* Chaining servers (sending files from local machine -> server 1 -> server 2)
+
+         scp <src_file> <user_one>@<ip_one> <user_two>@<ip_two>:<target_dir_two>
+
+### Securely transfer/copy files from SERVER to LOCAL machine
+
+         scp <user>@<ip>:<file_on_server> <destination_on_local>
+
 
 ### Run script in remote machine
 From local machine.
@@ -98,9 +113,7 @@ In this example, we make a copy of the current user's .ssh folder into another u
 
 ### Copy and paste (helper)
 
-        apt install xclip
-        alias copy="xclip -sel clip"
-        alias paste="xclip -out -sel clip"
+        apt install xclip -y && alias copy="xclip -sel clip" && alias paste="xclip -out -sel clip"
 
 
 The alias "copy" is equivalent to CTRL + C, and "paste" is equivalent to CTRL + V.
