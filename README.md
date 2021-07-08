@@ -14,7 +14,7 @@
    * "-o" -> Saves the private-key using the new OpenSSH format rather than the PEM format. Actually, this option is implied when you specify the key type as ed25519 
    * "-C" -> An identifier. Your email, e.g
    * "-f" -> Specifies the filename of the generated key file. If you want it to be discovered automatically by the SSH agent, it must be stored in the default `.ssh` directory within your home directory.
-
+* c ✨ :fire: :bowtie: :bowtie:
 ### Make sure SSH agent is running  
 In case you get "Could not open a connection to your authentication agent" error message. 
 
@@ -43,6 +43,38 @@ append "-v" at the end to see details of the connection attempt
 
         hostnamectl
 
+### Find my public IP
+
+* Local command
+
+        
+        ifconfig
+
+* Web service
+
+        curl ifconfig.co/json
+        #"/json" is optional, and returns:
+        {
+                "ip": "167.71.35.9",
+                "ip_decimal": 2806457097,
+                "country": "Germany",
+                "country_iso": "DE",
+                "country_eu": true,
+                "region_name": "Hesse",
+                "region_code": "HE",
+                "zip_code": "60313",
+                "city": "Frankfurt am Main",
+                "latitude": 50.1188,
+                "longitude": 8.6843,
+                "time_zone": "Europe/Berlin",
+                "asn": "AS14061",
+                "asn_org": "DIGITALOCEAN-ASN",
+                "user_agent": {
+                "product": "curl",
+                "version": "7.68.0",
+                "raw_value": "curl/7.68.0"
+                }
+        }
 ### Restart SSH service
 
 When some changes are made, such as editing a config.file, e.g. For the changes to kick in.
