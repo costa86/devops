@@ -14,7 +14,16 @@
    * "-o" -> Saves the private-key using the new OpenSSH format rather than the PEM format. Actually, this option is implied when you specify the key type as ed25519 
    * "-C" -> An identifier. Your email, e.g
    * "-f" -> Specifies the filename of the generated key file. If you want it to be discovered automatically by the SSH agent, it must be stored in the default `.ssh` directory within your home directory.
-* c ✨ :fire: :bowtie: :bowtie:
+
+#### :warning: About the passphrase
+When creating a SSH key, you will be prompted for an optional passphrase that will be required when you try to use it. Before choosing whether you want it,  let's consider the following scenario:
+* We have ``key A``- generated on machine 1 and connects machine 1 to machine 2
+* The private part of ``key A`` gets leaked! :fearful:
+* Someone tries to use the leaked ``key A`` on their machine and attempts a connection to machine 2
+* If ``key A`` has no passphrase, the connection will very likely work! :scream:
+* On the other hand, if a passphrase was set, it will be prompted at the moment someone tries to add it to their machine (the ``ssh-add`` command). Therefore they will not even be able to try to use it for connecting to machine 2
+
+
 ### Make sure SSH agent is running  
 In case you get "Could not open a connection to your authentication agent" error message. 
 
@@ -93,10 +102,17 @@ When some changes are made, such as editing a config.file, e.g. For the changes 
 
         scp -r <files_dir> <user>@<ip>:<target_dir>
 
-* Chaining servers (sending files from local machine -> server 1 -> server 2)
+* "Chaining" servers 
+  Let's say the ``local`` machine connects to ``server 1`` only, and ``server 1`` connects to ``server 2`` only. Here's how we can send files from ``local`` to ``server 2``, by using ``server 1`` as a middleman:
+        
+  * 1/2 Send file from ``local`` to  ``server 1``
 
-         scp <src_file> <user_one>@<ip_one> <user_two>@<ip_two>:<target_dir_two>
-
+                scp <src_file> <user_one>@<ip_one>:<temp_dir>
+   
+   * 2/2 Now, having the file on ``server 1``, send it to ``server 2`` (from ``local``)
+     
+                scp <user_one>@<ip_one>:<src_file> <user_two>@<ip_two>:<final_dir>
+  
 ### Securely transfer/copy files from SERVER to LOCAL machine
 
          scp <user>@<ip>:<file_on_server> <destination_on_local>
