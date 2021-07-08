@@ -1,9 +1,7 @@
-$bashFile = "create_journal.sh"
-$hostName = "one"
+$bashFile = "create-journal.sh"
+$hostName = "ubu-2"
 $journalFile = "journal.txt"
-$localDir = "."
-$serverDir = "."
 
 scp $bashFile $hostName":"$serverDir
-ssh $hostName "$serverDir $bashScript"
-scp $hostName":"$journalFile $localDir
+ssh $hostName ". $bashScript"
+scp $hostName":"$journalFile "."
