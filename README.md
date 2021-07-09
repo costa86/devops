@@ -175,7 +175,9 @@ In this example, we make a copy of the current user's .ssh folder into another u
 
 ### Copy and paste (helper)
 
-        apt install xclip -y && alias copy="xclip -sel clip" && alias paste="xclip -out -sel clip"
+        apt install xclip -y
+        alias copy="xclip -sel clip"
+        alias paste="xclip -out -sel clip"
 
 
 The alias "copy" is equivalent to CTRL + C, and "paste" is equivalent to CTRL + V.
