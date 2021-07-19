@@ -151,6 +151,10 @@ Make sure the script is already on the target machine
 
         id <user>
 
+### Add passphrase to SSH key
+
+        ssh-keygen -p -f <private_key>
+
 ### Copy files & preserve permissions & change ownership
 
 In this example, we make a copy of the current user's .ssh folder into another user
